@@ -43,6 +43,7 @@ public class NewIpTrigger extends AbstractTrigger {
         } catch (SocketException e) {
             log.error(e);
         }
+        log.info("Connection not found");
         return "";
     }
 }
