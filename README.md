@@ -28,6 +28,6 @@ public class MyFancyTrigger extends AbstractTrigger
 ```
 - Add your fancy trigger to scheduler in Runner class
 ```Java
-scheduler.addTrigger(new MyFancyTrigger());
+        scheduler.addTrigger(new MyFancyTrigger());
 ```
 - Package and deploy assembly to your IoT controller with installed JRE
