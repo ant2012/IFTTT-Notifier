@@ -1,4 +1,4 @@
-package ru.ant.iot.ifttt.common;
+package ru.ant.iot.ifttt;
 
 import javax.json.Json;
 import javax.json.JsonBuilderFactory;

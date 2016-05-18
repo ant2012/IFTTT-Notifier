@@ -1,20 +1,21 @@
-package ru.ant.iot.ifttt.common;
+package ru.ant.iot.ifttt;
 
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.HttpClientBuilder;
+import org.apache.http.protocol.HTTP;
+import ru.ant.common.App;
+import ru.ant.common.Loggable;
 
 import java.io.IOException;
 
 /**
  * Created by ant on 16.05.2016.
  */
-public abstract class AbstractTrigger extends Loggable implements Runnable {
+public abstract class IftttTrigger extends Loggable implements Runnable {
     private IftttMessage preveousMsg = new IftttMessage();
-
     private String iftttMakerKey;
-
 
     public abstract String getIftttEventName();
 
@@ -26,7 +27,7 @@ public abstract class AbstractTrigger extends Loggable implements Runnable {
 
     private String getIftttMakerKey() {
         if(iftttMakerKey!=null) return iftttMakerKey;
-        return iftttMakerKey = PropertiesManager.getInstance().getProperty("ifttt_maker_key");
+        return iftttMakerKey = App.getProperty("ifttt.maker.key");
     }
 
     public void run() {
@@ -45,7 +46,7 @@ public abstract class AbstractTrigger extends Loggable implements Runnable {
         try {
             String json = preveousMsg.getJson();
             post.setEntity(new StringEntity(json));
-            post.setHeader("Content-type", "application/json");
+            post.setHeader(HTTP.CONTENT_TYPE, "application/json; charset=UTF-8");
             client.execute(post);
             log.info("Message [" + json + "] to ifttt maker url [" + getIftttEventUrl() + "] was sent");
         } catch (IOException e) {
