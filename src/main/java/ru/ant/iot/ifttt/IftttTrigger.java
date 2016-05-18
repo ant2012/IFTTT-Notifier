@@ -33,9 +33,9 @@ public abstract class IftttTrigger extends Loggable implements Runnable {
     public void run() {
         IftttMessage msg = initMessage();
 
-        if(msg.isEmpty()) return;
         if(msg.equals(preveousMsg)) return;
         preveousMsg = msg;
+        if(preveousMsg.isEmpty()) return;
 
         sendMessageToIfttt();
     }
