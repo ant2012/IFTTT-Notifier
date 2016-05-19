@@ -14,7 +14,7 @@ import java.io.IOException;
  * Created by ant on 16.05.2016.
  */
 public abstract class IftttTrigger extends Loggable implements Runnable {
-    private IftttMessage preveousMsg = new IftttMessage();
+    protected IftttMessage preveousMsg = new IftttMessage();
     private String iftttMakerKey;
 
     public abstract String getIftttEventName();
@@ -40,7 +40,7 @@ public abstract class IftttTrigger extends Loggable implements Runnable {
         sendMessageToIfttt();
     }
 
-    private void sendMessageToIfttt() {
+    protected void sendMessageToIfttt() {
         HttpClient client = HttpClientBuilder.create().build();
         HttpPost post = new HttpPost(getIftttEventUrl());
         try {

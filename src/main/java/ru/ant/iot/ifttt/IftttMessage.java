@@ -50,4 +50,15 @@ public class IftttMessage {
         return value1.isEmpty() && value2.isEmpty() && value3.isEmpty();
     }
 
+    public String getValue1() {
+        return value1;
+    }
+
+    public String getValue2() {
+        return value2;
+    }
+
+    public String getValue3() {
+        return value3;
+    }
 }
