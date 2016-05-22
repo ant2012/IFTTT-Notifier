@@ -42,4 +42,5 @@ public class MyFancyTrigger extends IftttTrigger
     Executors.newScheduledThreadPool(1)
         .scheduleWithFixedDelay(new MyFancyTrigger(), initialDelay, delay, TimeUnit);
 ```
+  or just take [TriggerPoolManager](https://github.com/ant2012/ant-commons/blob/master/src/main/java/ru/ant/common/TriggerPoolManager.java) class from ant-commons package
 - Package and deploy assembly to your IoT controller with installed JRE
