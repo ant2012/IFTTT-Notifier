@@ -7,7 +7,7 @@ import javax.json.JsonObjectBuilder;
 /**
  * Created by ant on 16.05.2016.
  */
-public class IftttMessage {
+public final class IftttMessage {
     private String value1;
     private String value2;
     private String value3;

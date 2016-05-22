@@ -5,17 +5,16 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.protocol.HTTP;
-import ru.ant.common.App;
-import ru.ant.common.Loggable;
+import org.apache.log4j.Logger;
 
 import java.io.IOException;
 
 /**
- * Created by ant on 16.05.2016.
+ * Created by ant on 22.05.2016.
  */
-public abstract class IftttTrigger extends Loggable implements Runnable {
-    protected IftttMessage preveousMsg = new IftttMessage();
-    private String iftttMakerKey;
+public abstract class IftttTrigger implements Runnable {
+    Logger log = Logger.getLogger(getClass());
+    protected IftttMessage msg;
 
     public abstract String getIftttEventName();
 
@@ -25,26 +24,20 @@ public abstract class IftttTrigger extends Loggable implements Runnable {
         return String.format("http://maker.ifttt.com/trigger/%1$s/with/key/%2$s", getIftttEventName(), getIftttMakerKey());
     }
 
-    private String getIftttMakerKey() {
-        if(iftttMakerKey!=null) return iftttMakerKey;
-        return iftttMakerKey = App.getProperty("ifttt.maker.key");
-    }
+    protected abstract String getIftttMakerKey();
 
     public void run() {
-        IftttMessage msg = initMessage();
-
-        if(msg.equals(preveousMsg)) return;
-        preveousMsg = msg;
-        if(preveousMsg.isEmpty()) return;
-
-        sendMessageToIfttt();
+        msg = initMessage();
+        if(triggerConditionIsMet()) sendMessageToIfttt();
     }
+
+    protected abstract boolean triggerConditionIsMet();
 
     protected void sendMessageToIfttt() {
         HttpClient client = HttpClientBuilder.create().build();
         HttpPost post = new HttpPost(getIftttEventUrl());
         try {
-            String json = preveousMsg.getJson();
+            String json = msg.getJson();
             post.setEntity(new StringEntity(json));
             post.setHeader(HTTP.CONTENT_TYPE, "application/json; charset=UTF-8");
             client.execute(post);
