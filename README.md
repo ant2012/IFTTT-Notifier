@@ -8,10 +8,9 @@ Very simple and easy extendable <br/>
 ### Getting started
 
 - Fork and import maven project in your best IDE
-- Put your IFTTT Maker key to ***app.properties*** external resource
-- Inherite your trigger class from ***AbstractTrigger***
+- Inherite your trigger class from ***IftttTrigger***
 ```Java
-public class MyFancyTrigger extends AbstractTrigger
+public class MyFancyTrigger extends IftttTrigger
 ```
 - Implement abstract methods
 ```Java
@@ -22,12 +21,25 @@ public class MyFancyTrigger extends AbstractTrigger
 ```
 ```Java
     @Override
+    protected String getIftttMakerKey() {
+        return "XXXXXX";
+    }
+```
+```Java
+    @Override
+    protected boolean triggerConditionIsMet() {
+        return [myCondition];
+    }
+```
+```Java
+    @Override
     protected IftttMessage initMessage() {
         return new IftttMessage(value1, value2, value3);
     }
 ```
-- Add your fancy trigger to scheduler in Runner class
+- Ifttt trigger is Runnable, so just add it to scheduler pool
 ```Java
-        scheduler.addTrigger(new MyFancyTrigger());
+    Executors.newScheduledThreadPool(1)
+        .scheduleWithFixedDelay(new MyFancyTrigger(), initialDelay, delay, TimeUnit);
 ```
 - Package and deploy assembly to your IoT controller with installed JRE

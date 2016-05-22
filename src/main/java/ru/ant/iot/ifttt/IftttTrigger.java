@@ -18,20 +18,20 @@ public abstract class IftttTrigger implements Runnable {
 
     public abstract String getIftttEventName();
 
+    protected abstract String getIftttMakerKey();
+
+    protected abstract boolean triggerConditionIsMet();
+
     protected abstract IftttMessage initMessage();
 
     public String getIftttEventUrl() {
         return String.format("http://maker.ifttt.com/trigger/%1$s/with/key/%2$s", getIftttEventName(), getIftttMakerKey());
     }
 
-    protected abstract String getIftttMakerKey();
-
     public void run() {
         msg = initMessage();
         if(triggerConditionIsMet()) sendMessageToIfttt();
     }
-
-    protected abstract boolean triggerConditionIsMet();
 
     protected void sendMessageToIfttt() {
         HttpClient client = HttpClientBuilder.create().build();
